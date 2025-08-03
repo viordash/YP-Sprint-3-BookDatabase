@@ -4,7 +4,6 @@
 #include "concepts.hpp"
 #include "heterogeneous_lookup.hpp"
 #include <print>
-#include <string>
 #include <string_view>
 #include <unordered_set>
 #include <vector>

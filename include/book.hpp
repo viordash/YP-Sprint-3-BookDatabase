@@ -1,7 +1,6 @@
 #pragma once
 
 #include <algorithm>
-#include <cstddef>
 #include <flat_map>
 #include <format>
 #include <stdexcept>
