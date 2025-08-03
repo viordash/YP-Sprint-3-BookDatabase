@@ -56,6 +56,8 @@ public:
     const_iterator end() const { return books_.end(); }
     size_type size() const { return books_.size(); }
     bool empty() const { return books_.empty(); }
+    reference operator[](size_type pos) { return books_[pos]; }
+    const_reference operator[](size_type pos) const { return books_[pos]; }
     reference at(size_type pos) { return books_.at(pos); }
     const_reference at(size_type pos) const { return books_.at(pos); }
 
