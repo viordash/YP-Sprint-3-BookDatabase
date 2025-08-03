@@ -1,5 +1,6 @@
 #pragma once
 
+#include <flat_map>
 #include <format>
 #include <stdexcept>
 #include <string_view>
@@ -92,5 +93,25 @@ struct formatter<bookdb::Book, char> {
     constexpr auto parse(format_parse_context &ctx) {
         return ctx.begin();  // Просто игнорируем пользовательский формат
     }
+};
+
+template <>
+struct formatter<flat_map<bookdb::Genre, double>> {
+    template <typename FormatContext>
+    auto format(const flat_map<bookdb::Genre, double> &genre_map, FormatContext &fc) const {
+        auto out = fc.out();
+
+        for (auto it = genre_map.begin(); it != genre_map.end(); ++it) {
+            const auto &[genre, rating] = *it;
+            out = format_to(out, "{}: {:.1f}", genre, rating);
+            bool put_delimeter = std::next(it) != genre_map.end();
+            if (put_delimeter) {
+                out = format_to(out, ", ");
+            }
+        }
+        return out;
+    }
+
+    constexpr auto parse(format_parse_context &ctx) { return ctx.begin(); }
 };
 }  // namespace std
