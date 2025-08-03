@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+#include <cstddef>
 #include <flat_map>
 #include <format>
 #include <stdexcept>
@@ -108,6 +110,22 @@ struct formatter<flat_map<bookdb::Genre, double>> {
             if (put_delimeter) {
                 out = format_to(out, ", ");
             }
+        }
+        return out;
+    }
+
+    constexpr auto parse(format_parse_context &ctx) { return ctx.begin(); }
+};
+
+template <typename Comparator>
+struct formatter<flat_map<std::string_view, int, Comparator>> {
+    template <typename FormatContext>
+    auto format(const flat_map<std::string_view, int, Comparator> &author_histogram, FormatContext &fc) const {
+        auto out = fc.out();
+
+        const int max_cols = 60;
+        for (const auto &[author, books] : author_histogram) {
+            out = format_to(out, "\n{:>30}: {}", author, string(min(books, max_cols), '*'));
         }
         return out;
     }

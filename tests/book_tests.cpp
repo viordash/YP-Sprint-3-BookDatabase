@@ -55,3 +55,21 @@ TEST(TestBook, GenreRatings_formatter_returns_string_about_book) {
     auto genre_ratings = calculateGenreRatings(book_db.begin(), book_db.end());
     ASSERT_EQ(std::format("{}", genre_ratings), "Fiction: 8.0, SciFi: 4.0");
 }
+
+TEST(TestBook, AuthorHistogramF_formatter_returns_string_about_book) {
+    BookDatabase book_db{{"1984", "George Orwell", 1949, Genre::SciFi, 4., 190},
+                         {"The Hobbit", "J.R.R. Tolkien", 1937, Genre::Fiction, 4.9, 203},
+                         {"Pride and Prejudice", "Jane Austen", 1813, Genre::Fiction, 4.7, 178},
+                         {"Lord of the Flies", "William Golding", 1954, Genre::Fiction, 4.2, 89},
+                         {"Animal Farm1", "George Orwell", 1945, Genre::Fiction, 4.4, 143},
+                         {"Animal Farm2", "George Orwell", 1945, Genre::Fiction, 4.4, 143},
+                         {"Animal Farm3", "George Orwell", 1945, Genre::Fiction, 4.4, 143},
+                         {"Animal Farm4", "George Orwell", 1945, Genre::Fiction, 4.4, 143}};
+
+    auto histogram = buildAuthorHistogramFlat(book_db);
+    ASSERT_EQ(std::format("{}", histogram), R"(
+                 George Orwell: *****
+                J.R.R. Tolkien: *
+                   Jane Austen: *
+               William Golding: *)");
+}
