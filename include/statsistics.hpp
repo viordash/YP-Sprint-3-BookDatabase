@@ -54,4 +54,15 @@ auto sampleRandomBooks(const BookDatabase<T> &cont, size_t count) {
     return result;
 }
 
+template <BookContainerLike T, BookComparator C>
+auto getTopNBy(BookDatabase<T> &cont, size_t n, C comp) {
+    std::vector<std::reference_wrapper<const Book>> result;
+
+    std::sort(cont.begin(), cont.end(), comp);
+
+    for (size_t i = 0; i < std::min(n, cont.size()); ++i) {
+        result.emplace_back(cont.at(cont.size() - 1 - i));
+    }
+    return result;
+}
 }  // namespace bookdb

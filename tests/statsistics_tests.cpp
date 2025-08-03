@@ -1,3 +1,4 @@
+#include "comparators.hpp"
 #include "statsistics.hpp"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -72,4 +73,29 @@ TEST(TestStatsistics, SampleRandomBooks) {
 
     auto random_books_10 = sampleRandomBooks(book_db, 10);
     ASSERT_EQ(random_books_10.size(), 6);
+}
+
+TEST(TestStatsistics, getTopNBy) {
+    BookDatabase book_db{{"1984", "George Orwell", 1949, Genre::SciFi, 4.0, 190},
+                         {"The Hobbit", "J.R.R. Tolkien", 1937, Genre::Fiction, 9, 203},
+                         {"Pride and Prejudice", "Jane Austen", 1813, Genre::Fiction, 7, 178},
+                         {"Lord of the Flies", "William Golding", 1954, Genre::Mystery, 4.2, 89},
+                         {"Animal Farm", "George Orwell", 1945, Genre::Fiction, 3, 143},
+                         {"Jane Eyre", "Charlotte Brontë", 1847, Genre::Fiction, 1, 110}};
+
+    auto top_0 = getTopNBy(book_db, 0, comp::LessByRating{});
+    ASSERT_EQ(top_0.size(), 0);
+
+    auto top_1 = getTopNBy(book_db, 1, comp::LessByRating{});
+    ASSERT_EQ(top_1.size(), 1);
+    ASSERT_EQ(top_1[0].get().title, "The Hobbit");
+
+    auto top_3 = getTopNBy(book_db, 3, comp::LessByRating{});
+    ASSERT_EQ(top_3.size(), 3);
+    ASSERT_EQ(top_3[0].get().title, "The Hobbit");
+    ASSERT_EQ(top_3[1].get().title, "Pride and Prejudice");
+    ASSERT_EQ(top_3[2].get().title, "Lord of the Flies");
+
+    auto top_10 = getTopNBy(book_db, 10, comp::LessByRating{});
+    ASSERT_EQ(top_10.size(), 6);
 }
