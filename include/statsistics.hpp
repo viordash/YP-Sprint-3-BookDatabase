@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <flat_map>
 #include <iterator>
+#include <numeric>
 #include <print>
 #include <random>
 #include <string_view>
@@ -33,6 +34,23 @@ auto calculateGenreRatings(I first, S last) {
     for (const auto &[genre, stats] : genreStats) {
         result.insert({genre, stats.first / stats.second});
     }
+    return result;
+}
+
+template <BookContainerLike T>
+double calculateAverageRating(const BookDatabase<T> &cont) {
+    if (cont.empty()) {
+        return 0.0;
+    }
+    auto total =
+        std::accumulate(cont.begin(), cont.end(), 0.0, [](auto sum, const auto &book) { return sum + book.rating; });
+    return total / cont.size();
+}
+
+template <BookContainerLike T>
+auto sampleRandomBooks(const BookDatabase<T> &cont, size_t count) {
+    std::vector<std::reference_wrapper<const Book>> result;
+    std::sample(cont.begin(), cont.end(), std::back_inserter(result), count, std::mt19937{std::random_device{}()});
     return result;
 }
 

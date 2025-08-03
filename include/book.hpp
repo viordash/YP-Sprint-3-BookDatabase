@@ -47,6 +47,8 @@ struct Book {
 
     Book(std::string_view title, std::string_view author, int year, Genre genre, double rating, int read_count)
         : author(author), title(title), year(year), genre(genre), rating(rating), read_count(read_count) {}
+
+    bool operator==(const Book &) const = default;
 };
 }  // namespace bookdb
 
