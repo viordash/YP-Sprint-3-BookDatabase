@@ -2,7 +2,6 @@
 
 #include "book.hpp"
 #include "concepts.hpp"
-#include <functional>
 
 namespace bookdb {
 
