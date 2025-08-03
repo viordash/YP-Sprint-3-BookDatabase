@@ -28,3 +28,12 @@ TEST(TestBook, GenreFromString_returns_Unknown_for_unknown_genres_or_with_incorr
 
     static_assert(GenreFromString("Unknown") == Genre::Unknown);
 }
+
+TEST(TestBook, Genre_formatter_returns_genre_name) {
+    ASSERT_EQ(std::format("{}", Genre::Fiction), "Fiction");
+    ASSERT_EQ(std::format("{}", Genre::NonFiction), "NonFiction");
+    ASSERT_EQ(std::format("{}", Genre::SciFi), "SciFi");
+    ASSERT_EQ(std::format("{}", Genre::Biography), "Biography");
+    ASSERT_EQ(std::format("{}", Genre::Mystery), "Mystery");
+    ASSERT_EQ(std::format("{}", Genre::Unknown), "Unknown");
+}
