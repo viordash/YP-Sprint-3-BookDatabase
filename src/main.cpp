@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <vector>
 
 #include "book_database.hpp"
 #include "comparators.hpp"
