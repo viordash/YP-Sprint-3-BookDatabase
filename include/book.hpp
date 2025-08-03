@@ -43,12 +43,13 @@ struct Book {
     int read_count;
 
     // Ваш код для конструкторов здесь
-    Book(std::string_view title, std::string_view author, int year, std::string_view genre_str, double rating,
-         int read_count)
+    constexpr Book(std::string_view title, std::string_view author, int year, std::string_view genre_str, double rating,
+                   int read_count)
         : author(author), title(title), year(year), genre(GenreFromString(genre_str)), rating(rating),
           read_count(read_count) {}
 
-    Book(std::string_view title, std::string_view author, int year, Genre genre, double rating, int read_count)
+    constexpr Book(std::string_view title, std::string_view author, int year, Genre genre, double rating,
+                   int read_count)
         : author(author), title(title), year(year), genre(genre), rating(rating), read_count(read_count) {}
 
     bool operator==(const Book &) const = default;
