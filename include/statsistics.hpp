@@ -7,6 +7,7 @@
 #include <numeric>
 #include <print>
 #include <random>
+#include <span>
 #include <string_view>
 
 namespace bookdb {
@@ -56,20 +57,22 @@ auto sampleRandomBooks(const BookDatabase<T> &cont, size_t count) {
     return result;
 }
 
-template <BookContainerLike T, BookComparator C>
-auto getTopNBy(BookDatabase<T> &cont, size_t n, C comp) {
+template <BookComparator C>
+auto getTopNBy(std::span<Book> books, size_t n, C comp) {
     std::vector<std::reference_wrapper<const Book>> result;
-    if (cont.empty()) {
+    if (books.empty()) {
         return result;
     }
 
-    n = std::min(n, cont.size());
+    n = std::min(n, books.size());
     result.reserve(n);
 
-    std::sort(cont.begin(), cont.end(), comp);
+    std::sort(books.begin(), books.end(), comp);
+
     for (size_t i = 0; i < n; ++i) {
-        result.emplace_back(cont[cont.size() - 1 - i]);
+        result.emplace_back(books[books.size() - 1 - i]);
     }
     return result;
 }
+
 }  // namespace bookdb
