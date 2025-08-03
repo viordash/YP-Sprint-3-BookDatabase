@@ -5,6 +5,7 @@
 #include "heterogeneous_lookup.hpp"
 #include <print>
 #include <string>
+#include <string_view>
 #include <unordered_set>
 #include <vector>
 
@@ -20,7 +21,7 @@ public:
     using reference = typename BookContainer::reference;
     using const_reference = typename BookContainer::const_reference;
 
-    using AuthorContainer = std::unordered_set<std::string, TransparentStringHash, TransparentStringEqual>;
+    using AuthorContainer = std::unordered_set<std::string_view, TransparentStringHash, TransparentStringEqual>;
 
     BookDatabase() = default;
 
