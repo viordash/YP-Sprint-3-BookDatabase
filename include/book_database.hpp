@@ -42,13 +42,13 @@ public:
 
     void PushBack(const Book &book) {
         books_.push_back(book);
-        authors_.insert(std::string(book.author));
+        authors_.insert(book.author);
     }
 
     template <typename... Args>
     void EmplaceBack(Args &&...args) {
         books_.emplace_back(std::forward<Args>(args)...);
-        authors_.insert(std::string(books_.back().author));
+        authors_.insert(books_.back().author);
     }
 
     iterator begin() { return books_.begin(); }
