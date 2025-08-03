@@ -118,3 +118,14 @@ TEST(TestBookDb, Formatter_returns_book_friendly_text) {
               "Austen 'Pride and Prejudice' [year:1813, genre:'Fiction', rating:4.7, reads:178]\nAuthors:\n- Jane "
               "Austen\n- J.R.R. Tolkien\n- George Orwell\n");
 }
+
+TEST(TestBookDb, TypeAliases) {
+    using books_vector = std::vector<Book>;
+
+    static_assert(std::is_same_v<BookDatabase<books_vector>::value_type, books_vector::value_type>);
+    static_assert(std::is_same_v<BookDatabase<books_vector>::iterator, books_vector::iterator>);
+    static_assert(std::is_same_v<BookDatabase<books_vector>::const_iterator, books_vector::const_iterator>);
+    static_assert(std::is_same_v<BookDatabase<books_vector>::size_type, books_vector::size_type>);
+    static_assert(std::is_same_v<BookDatabase<books_vector>::reference, books_vector::reference>);
+    static_assert(std::is_same_v<BookDatabase<books_vector>::const_reference, books_vector::const_reference>);
+}
