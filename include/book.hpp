@@ -40,6 +40,13 @@ struct Book {
     int read_count;
 
     // Ваш код для конструкторов здесь
+    Book(std::string_view title, std::string_view author, int year, std::string_view genre_str, double rating,
+         int read_count)
+        : author(author), title(title), year(year), genre(GenreFromString(genre_str)), rating(rating),
+          read_count(read_count) {}
+
+    Book(std::string_view title, std::string_view author, int year, Genre genre, double rating, int read_count)
+        : author(author), title(title), year(year), genre(genre), rating(rating), read_count(read_count) {}
 };
 }  // namespace bookdb
 
@@ -72,5 +79,16 @@ struct formatter<bookdb::Genre, char> {
 };
 
 // Ваш код для std::formatter<Book> здесь
+template <>
+struct formatter<bookdb::Book, char> {
+    template <typename FormatContext>
+    auto format(const bookdb::Book &book, FormatContext &fc) const {
+        return format_to(fc.out(), "{} '{}' [year:{}, genre:'{}', rating:{:.1f}, reads:{}]", book.author, book.title,
+                         book.year, book.genre, book.rating, book.read_count);
+    }
 
+    constexpr auto parse(format_parse_context &ctx) {
+        return ctx.begin();  // Просто игнорируем пользовательский формат
+    }
+};
 }  // namespace std

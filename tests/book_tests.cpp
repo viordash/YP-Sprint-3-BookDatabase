@@ -37,3 +37,10 @@ TEST(TestBook, Genre_formatter_returns_genre_name) {
     ASSERT_EQ(std::format("{}", Genre::Mystery), "Mystery");
     ASSERT_EQ(std::format("{}", Genre::Unknown), "Unknown");
 }
+
+TEST(TestBook, Book_formatter_returns_string_about_book) {
+    ASSERT_EQ(std::format<bookdb::Book>("{}", {"1984", "George Orwell", 1949, Genre::SciFi, 4., 190}),
+              "George Orwell '1984' [year:1949, genre:'SciFi', rating:4.0, reads:190]");
+    ASSERT_EQ(std::format<bookdb::Book>("{}", {"The Hobbit", "J.R.R. Tolkien", 1937, Genre::Fiction, 4.9, 203}),
+              "J.R.R. Tolkien 'The Hobbit' [year:1937, genre:'Fiction', rating:4.9, reads:203]");
+}
