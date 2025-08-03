@@ -1,10 +1,9 @@
 #include "heterogeneous_lookup.hpp"
-#include <concepts>
 #include <gtest/gtest.h>
 
 using namespace bookdb;
 
-TEST(TestComparators, TransparentStringLess) {
+TEST(TestHeterogeneous_Lookup, TransparentStringLess) {
     TransparentStringLess comp;
 
     static_assert(requires { typename TransparentStringLess::is_transparent; });
@@ -14,7 +13,7 @@ TEST(TestComparators, TransparentStringLess) {
     ASSERT_FALSE(comp("book3", "book1"));
 }
 
-TEST(TestComparators, TransparentStringEqual) {
+TEST(TestHeterogeneous_Lookup, TransparentStringEqual) {
     TransparentStringEqual comp;
 
     static_assert(requires { typename TransparentStringEqual::is_transparent; });
@@ -24,7 +23,7 @@ TEST(TestComparators, TransparentStringEqual) {
     ASSERT_FALSE(comp("book3", "book1"));
 }
 
-TEST(TestComparators, TransparentStringHash) {
+TEST(TestHeterogeneous_Lookup, TransparentStringHash) {
     TransparentStringHash comp;
 
     static_assert(requires { typename TransparentStringHash::is_transparent; });
