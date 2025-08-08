@@ -43,8 +43,9 @@ double calculateAverageRating(const BookDatabase<T> &cont) {
     if (cont.empty()) {
         return 0.0;
     }
-    auto total =
-        std::accumulate(cont.begin(), cont.end(), 0.0, [](auto sum, const auto &book) { return sum + book.rating; });
+    auto total = std::transform_reduce(cont.begin(), cont.end(), 0.0, std::plus<>(),
+                                       [](const auto &book) { return book.rating; });
+
     return total / cont.size();
 }
 
