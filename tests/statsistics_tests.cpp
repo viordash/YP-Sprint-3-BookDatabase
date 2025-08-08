@@ -30,12 +30,12 @@ TEST(TestStatsistics, GenreRatings) {
 
     auto genre_ratings = calculateGenreRatings(book_db.begin(), book_db.end());
     ASSERT_EQ(genre_ratings.size(), 3);
-    ASSERT_FLOAT_EQ(genre_ratings[Genre::SciFi], 4.0);
-    ASSERT_FLOAT_EQ(genre_ratings[Genre::Fiction], 5);
-    ASSERT_FLOAT_EQ(genre_ratings[Genre::Mystery], 4.2);
-    ASSERT_FLOAT_EQ(genre_ratings[Genre::NonFiction], 0);
-    ASSERT_FLOAT_EQ(genre_ratings[Genre::Biography], 0);
-    ASSERT_FLOAT_EQ(genre_ratings[Genre::Unknown], 0);
+    ASSERT_DOUBLE_EQ(genre_ratings[Genre::SciFi], 4.0);
+    ASSERT_DOUBLE_EQ(genre_ratings[Genre::Fiction], 5);
+    ASSERT_DOUBLE_EQ(genre_ratings[Genre::Mystery], 4.2);
+    ASSERT_DOUBLE_EQ(genre_ratings[Genre::NonFiction], 0);
+    ASSERT_DOUBLE_EQ(genre_ratings[Genre::Biography], 0);
+    ASSERT_DOUBLE_EQ(genre_ratings[Genre::Unknown], 0);
 }
 
 TEST(TestStatsistics, AverageRating) {
@@ -47,7 +47,7 @@ TEST(TestStatsistics, AverageRating) {
                          {"Jane Eyre", "Charlotte Brontë", 1847, Genre::Fiction, 1, 110}};
 
     auto avg_ratings = calculateAverageRating(book_db);
-    ASSERT_FLOAT_EQ(avg_ratings, 4.7);
+    ASSERT_DOUBLE_EQ(avg_ratings, 4.7);
 }
 
 TEST(TestStatsistics, SampleRandomBooks) {
