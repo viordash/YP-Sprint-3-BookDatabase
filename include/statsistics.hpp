@@ -60,20 +60,10 @@ auto sampleRandomBooks(const BookDatabase<T> &cont, size_t count) {
 
 template <BookComparator C>
 auto getTopNBy(std::span<Book> books, size_t n, C comp) {
-    std::vector<std::reference_wrapper<const Book>> result;
-    if (books.empty()) {
-        return result;
-    }
-
     n = std::min(n, books.size());
-    result.reserve(n);
-
     std::sort(books.begin(), books.end(), comp);
-
-    for (size_t i = 0; i < n; ++i) {
-        result.emplace_back(books[books.size() - 1 - i]);
-    }
-    return result;
+    std::vector<std::reference_wrapper<const Book>> res(books.rbegin(), books.rbegin() + n);
+    return res;
 }
 
 }  // namespace bookdb
