@@ -52,6 +52,48 @@ TEST(TestBookDb, Fill_via_PushBack) {
     ASSERT_TRUE(book_db.GetAuthors().contains("F. Scott Fitzgerald"));
 }
 
+template <BookContainerLike BookContainer>
+static void EmplaceBack(BookDatabase<BookContainer> &book_db) {
+    std::string author_0{"George Orwell"};
+    std::string author_1{"George Orwell"};
+    std::string author_2{"F. Scott Fitzgerald"};
+    book_db.EmplaceBack("1984", author_0, 1949, Genre::SciFi, 4., 190);
+    book_db.EmplaceBack("Animal Farm", author_1, 1945, Genre::Fiction, 4.4, 143);
+    book_db.EmplaceBack("The Great Gatsby", author_2, 1925, Genre::Fiction, 4.5, 120);
+}
+
+TEST(TestBookDb, Authors_Ownership_When_EmplaceBack) {
+    BookDatabase book_db;
+    EmplaceBack(book_db);
+    ASSERT_EQ(book_db.size(), 3);
+    ASSERT_EQ(book_db.GetAuthors().size(), 2);
+    ASSERT_TRUE(book_db.GetAuthors().contains("George Orwell"));
+    ASSERT_TRUE(book_db.GetAuthors().contains("F. Scott Fitzgerald"));
+}
+
+template <BookContainerLike BookContainer>
+static void PushBack(BookDatabase<BookContainer> &book_db) {
+    std::string author_0{"George Orwell"};
+    std::string author_1{"George Orwell"};
+    std::string author_2{"F. Scott Fitzgerald"};
+    Book book1("1984", author_0, 1949, Genre::SciFi, 4., 190);
+    Book book2("Animal Farm", author_1, 1945, Genre::Fiction, 4.4, 143);
+    Book book3("The Great Gatsby", author_2, 1925, Genre::Fiction, 4.5, 120);
+    book_db.PushBack(book1);
+    book_db.PushBack(book2);
+    book_db.PushBack(book3);
+}
+
+TEST(TestBookDb, Authors_Ownership_When_PushBack) {
+    BookDatabase book_db;
+    PushBack(book_db);
+
+    ASSERT_EQ(book_db.size(), 3);
+    ASSERT_EQ(book_db.GetAuthors().size(), 2);
+    ASSERT_TRUE(book_db.GetAuthors().contains("George Orwell"));
+    ASSERT_TRUE(book_db.GetAuthors().contains("F. Scott Fitzgerald"));
+}
+
 TEST(TestBookDb, Authors_is_unique) {
     BookDatabase book_db{{"1984", "George Orwell", 1949, Genre::SciFi, 4., 190},
                          {"The Hobbit", "J.R.R. Tolkien", 1937, Genre::Fiction, 4.9, 203},
