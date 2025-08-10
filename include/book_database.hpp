@@ -4,7 +4,6 @@
 #include "concepts.hpp"
 #include "heterogeneous_lookup.hpp"
 #include <print>
-#include <string_view>
 #include <unordered_set>
 #include <vector>
 
@@ -20,7 +19,7 @@ public:
     using reference = typename BookContainer::reference;
     using const_reference = typename BookContainer::const_reference;
 
-    using AuthorContainer = std::unordered_set<std::string_view, TransparentStringHash, TransparentStringEqual>;
+    using AuthorContainer = std::unordered_set<std::string, TransparentStringHash, TransparentStringEqual>;
 
     BookDatabase() = default;
 
@@ -40,14 +39,16 @@ public:
     }
 
     void PushBack(const Book &book) {
-        books_.push_back(book);
-        authors_.insert(book.author);
+        auto [it_author, _] = authors_.insert(std::string(book.author));
+        books_.push_back({book.title, *it_author, book.year, book.genre, book.rating, book.read_count});
     }
 
     template <typename... Args>
     void EmplaceBack(Args &&...args) {
         books_.emplace_back(std::forward<Args>(args)...);
-        authors_.insert(books_.back().author);
+        auto &new_book = books_.back();
+        auto [it_author, _] = authors_.insert(std::string(new_book.author));
+        new_book.author = *it_author;
     }
 
     iterator begin() { return books_.begin(); }
