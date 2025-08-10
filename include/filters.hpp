@@ -19,12 +19,12 @@ inline auto GenreIs(Genre genre) {
 
 template <BookPredicate... Preds>
 auto all_of(Preds... preds) {
-    return [=](const Book &book) { return (preds(book) && ...); };
+    return [... ps = std::move(preds)](const Book &book) { return (ps(book) && ...); };
 }
 
 template <BookPredicate... Preds>
 auto any_of(Preds... preds) {
-    return [=](const Book &book) { return (preds(book) || ...); };
+    return [... ps = std::move(preds)](const Book &book) { return (ps(book) || ...); };
 }
 
 template <BookIterator I, BookSentinel<I> S, BookPredicate P>
